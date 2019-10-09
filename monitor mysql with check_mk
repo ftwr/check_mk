@@ -1,0 +1,29 @@
+First you need to install on target server an agent and xinetd, after this steps, you can proceed:
+
+To install the plugin, copy the file mk_mysql to your $MK_LIBDIR/plugins directory. $MK_LIBDIR is configured in the beginning of the base Checkmk agent and is often set to /usr/lib/check_mk_agent/plugins.
+
+After that, make the script executable using chmod 700 mk_mysql and try running it using "./mk_mysql".
+
+For most people it will be complaining it's not authorized to access MySQL.
+
+This is because the MySQL root user needs to be accessible for the OS user used by the check_mk_agent. Almost any way of solving this has some security impact, we settled for storing the password in a file in $MK_CONFIDR which normally is /etc/check_mk. This file should have mode "400" (set with chmod again) and be called "mysql.cfg". Setting mode 400 ensures it will not be readable for non-root users.
+
+In it, you store the password and optional a user for MySQL to use for authentication in the following MySQL format:
+
+/etc/check_mk/mysql.cfg
+
+[client]
+user=monitor
+password=MyPassWord
+
+if mysql without password:
+
+[client]
+user=root
+
+
+############create mysql monitoring user########
+
+CREATE USER 'monitoring'@'localhost' IDENTIFIED BY 'someveryc00lpa$$';
+GRANT SELECT, SHOW DATABASES ON *.* TO 'monitoring'@'localhost';
+FLUSH PRIVILEGES;
