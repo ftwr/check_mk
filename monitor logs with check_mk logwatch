@@ -28,3 +28,7 @@ nano /etc/check_mk/logwatch.cfg
  C mysqld_safe mysqld from pid file /var/run/mysql/mysqld.pid ended
 
 4) Next go to Monitoring Host, and do a Check_MK Discovery (recheck)
+
+5) Resources
+https://tjth.co/setting-logwatch-monitoring-check_mk/
+https://checkmk.com/cms_legacy_logfiles.html
