@@ -1,0 +1,9 @@
+Wato Configuration -> Monitoring agents -> Packaged agents, copy agent link for your Linux distribution :
+
+Example for ubuntu 18:04, on server that need to be monitored:
+
+``` shell
+1) wget https://pulse-inner.pozitiff.ua/monitoring/check_mk/agents/check-mk-agent_1.5.0p19-1_all.deb
+2) sudo dpkg -i check-mk-agent_1.5.0p19-1_all.deb
+3) sudo apt-get install xinetd
+```
