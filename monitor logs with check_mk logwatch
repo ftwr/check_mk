@@ -1,22 +1,30 @@
-cd /usr/lib/check_mk_agent/plugins
-download plugin:
-wget https://raw.githubusercontent.com/ftwr/check_mk/master/mk_logwatch
-chmod +x mk_logwatch
+1) Install agent
+on CMK server:
+Copy agent to monitored host
+scp -i ~/.ssh/id_rsa /opt/omd/versions/1.5.0p19.cre/share/check_mk/agents/check-mk-agent_1.5.0p19-1_all.deb ubuntu@hostname:/home/ubuntu
+
+Copy plugin mk_logwatch to monitored host
+scp -i ~/.ssh/id_rsa /opt/omd/versions/1.5.0p19.cre/share/check_mk/agents/plugins/mk_logwatch ubuntu@hostname:/usr/lib/check_mk_agent/plugins
+
+Copy logwatch cfg example to monitored host
+scp -i ~/.ssh/id_rsa /opt/omd/versions/1.5.0p19.cre/share/check_mk/agents/cfg_examples/logwatch.cfg ubuntu@hostname:/etc/check_mk
+
+2) Install agent on monitored host:
+cd /home/ubuntu
+sudo dpkg -i check-mk-agent_1.5.0p19-1_all.deb
+sudo apt-get install xinetd
+chmod +x /usr/lib/check_mk_agent/plugins/mk_logwatch
 python --version
-If you've used the DEB or RPM package for installation or used the default settings for setup as root, the path to the file is /etc/check_mk/logwatch.cfg.
+check, it should return - <<<logwatch>>>
+./usr/lib/check_mk_agent/plugins/mk_logwatch
 
+3) Configure which logs need to be monitored
 nano /etc/check_mk/logwatch.cfg
-#insert this:
 
-/var/log/messages
- C Fail event detected on md device
- O Backup created*
- I mdadm.*: Rebuild.*event detected
- W mdadm\[
- 
- #or
- 
- /var/lib/mysql/error.log
+#Example for mysql 
+/var/log/mysql/error.log
  W Can't create/write to file
  C [ERROR] Can't start server
  C mysqld_safe mysqld from pid file /var/run/mysql/mysqld.pid ended
+
+4) Next go to Monitoring Host, and do a Check_MK Discovery (recheck)
