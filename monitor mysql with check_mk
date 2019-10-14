@@ -27,6 +27,11 @@ user=root
 CREATE USER 'monitoring'@'localhost' IDENTIFIED BY 'someveryc00lpa$$';
 GRANT SELECT, SHOW DATABASES ON *.* TO 'monitoring'@'localhost';
 FLUSH PRIVILEGES;
-
+########
+chacnge monitoring passwdord:
+sudo -u moitoring -i
+htpasswd -m ~/etc/htpasswd cmkadmin
 Official instruction:
 https://checkmk.com/cms_legacy_mysql.html
+
+
